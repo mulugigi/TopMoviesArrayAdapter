@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TopMovies</string>
+    <string name="txt_movies">This is Movies List</string>
+
+</resources>
