@@ -1,7 +1,7 @@
 package com.example.topmovies;
 
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.example.topmovies.Sample.SampleDataProvider;
 
@@ -13,13 +13,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView txtMovies;
-    private List<Movies> dataItemList = SampleDataProvider.dataItemList;
+    private final List<Movies> dataItemList = SampleDataProvider.dataItemList;
+   // private final List<String> movieNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Collections.sort(dataItemList, new Comparator<Movies>() {
+            @Override
+            public int compare(Movies o1, Movies o2) {
+                return o1.getTitle().compareTo(o2.getTitle());
+            }
+        });
 
 /*
         //This is used to test our Movies class by creating a new movie object
@@ -27,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         txtMovies = findViewById(R.id.txtMovies);
         txtMovies.setText(movies.toString());
         txtMovies.setText(String.format("%s \t %s", movies.getTitle(), movies.getDescription()));
-*/
-        txtMovies = findViewById(R.id.txtMovies);
+
+        TextView txtMovies = findViewById(R.id.txtMovies);
         txtMovies.setText("");
 
         Collections.sort(dataItemList, new Comparator<Movies>() {
@@ -40,6 +47,21 @@ public class MainActivity extends AppCompatActivity {
         for(Movies movie : dataItemList){
             txtMovies.append(String.format("%s \t %s \t %s \n", movie.getId(), movie.getTitle(), movie.getDescription()));
         }
-    }
+ */
+/*        for(Movies movie : dataItemList){
+            //txtMovies.append(String.format("%s \t %s \t %s \n", movie.getId(), movie.getTitle(), movie.getDescription()));
+            movieNames.add(movie.getTitle() + movie.getDescription());
+        }
+        Collections.sort(movieNames);
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, movieNames);
+        ListView listView = findViewById(R.id.lstMovies);
+        listView.setAdapter(adapter);
+    }
+     */
+
+        MoviesAdapter adapter = new MoviesAdapter(this, dataItemList);
+        ListView listView = findViewById(R.id.lstMovies);
+        listView.setAdapter(adapter);
+    }
 }
